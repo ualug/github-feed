@@ -6,3 +6,7 @@ get '/' do
   @settings = settings
   erb :index
 end
+
+get '/pretty' do
+  erb :pretty
+end
