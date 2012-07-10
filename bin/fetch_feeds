@@ -2,7 +2,7 @@
 require "bundler"
 Bundler.require :default, :fetcher, (ENV["RACK_ENV"] || "development").to_sym
 
-settings = YAML.load_file("../config.yml").to_hashugar
+settings = YAML.load_file("config.yml").to_hashugar
 github = Github.new basic_auth: ENV["GITHUB_AUTH"]
 
 
