@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require "bundler"
+Bundler.require :default, :fetcher, (ENV["RACK_ENV"] || "development").to_sym
