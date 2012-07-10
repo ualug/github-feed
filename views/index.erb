@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= @settings.github.org.capitalize %> Github Feed Fetcher</title>
+  </head>
+  <body>
+    <h1>Github Feed Fetcher</h1>
+    <h2>For <%= @settings.github.org.capitalize %></h2>
+    <p>Results are pushed every ten minutes to
+      <a href="https://gist.github.com/<%= @settings.github.gist %>">
+        this gist</a>.</p>
+    <p>Access the raw JSON
+      <a href="https://raw.github.com/gist/<%= @settings.github.gist %>/feed.json">
+        straight from Github</a>.</p>
+    <p><small>Coded by
+      <a href="http://passcod.net">passcod</a>,
+      code available
+      <a href="https://github.com/ualug/github-feed">here</a>.
+      This HTML you're reading is not so great, sorry.
+      And CSS free!
+    </small></p>
+  </body>
+</html>

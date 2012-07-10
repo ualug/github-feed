@@ -10,6 +10,7 @@ end
 
 group :server do
   gem "sinatra"
+  gem "httparty"
 end
 
 group :production do
