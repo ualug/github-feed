@@ -1,0 +1,16 @@
+This little Ruby app fetches the public timelines
+of all members of an organisation and pushes the
+last N results to a gist.
+
+It is originally designed to run on Heroku, taking
+advantage of Heroku's scheduler to run the fetcher
+every 10 minutes, but it can also be run elsewhere.
+
+The only requirement is to set this environment
+variable:
+
+  GITHUB_AUTH="login:password"
+
+Be sure to also read the config.yml file and its
+comments. The app code itself isn't very long nor
+complex, so read up if you wish.

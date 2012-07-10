@@ -1,3 +1,21 @@
 ---
 feed:
+  # The length of the resulting feed. When the
+  # fetcher runs, it will push the last N events
+  # to a gist. Default: 100
   length: 100
+  
+  # A list of members to ignore. If members of the
+  # organisation wish not to have their public feed
+  # listed, add their username to the list.
+  ignore: []
+
+github:
+  # The ID of the gist to be pushed to. This
+  # gist must be writtable by the authenticated
+  # user (as defined by the environment variable
+  # GITHUB_AUTH).
+  gist: 3081021
+  
+  # The organisation we're doing all this for :)
+  org: ualug
