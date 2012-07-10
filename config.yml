@@ -15,7 +15,7 @@ github:
   # gist must be writtable by the authenticated
   # user (as defined by the environment variable
   # GITHUB_AUTH).
-  gist: 3081021
+  gist: 3083036
   
   # The organisation we're doing all this for :)
   org: ualug
