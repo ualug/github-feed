@@ -22,6 +22,17 @@ members.each do |member|
 end
 
 
+# Remove the updates we generate ourselves.
+# Note: this doesn't recognise whether the
+# updating was done by this script or else.
+
+org_feed.reject! { |a|
+  if a.payload.gist
+    a.payload.gist.id == settings.github.gist.to_s
+  end
+}
+
+
 # Sort the feed by date and pick only
 # the last N items, as defined in the
 # config's feed.length property.
