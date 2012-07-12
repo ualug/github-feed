@@ -57,5 +57,8 @@ $(function() {
       $("#feed").prepend(entryModel(entry));
     }
     $("time").timeago();
+    $("time").each(function(i, t) {
+      return $(t).attr("title", $(t).attr("datetime"));
+    });
   });
 });

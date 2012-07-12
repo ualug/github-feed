@@ -51,6 +51,8 @@ $ ->
       $("#feed").prepend entryModel entry
     
     $("time").timeago()
+    $("time").each (i,t) ->
+      $(t).attr "title", $(t).attr "datetime"
     return
   return
     
