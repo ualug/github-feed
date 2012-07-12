@@ -6,6 +6,7 @@ gem "json"
 
 group :fetcher do
   gem "github_api"
+  gem "typhoeus", ">=0.5.0.pre"
 end
 
 group :server do

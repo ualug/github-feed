@@ -10,6 +10,11 @@ feed:
   # listed, add their username to the list.
   ignore: []
 
+push:
+  # A list of URLs that will be POSTed to whenever
+  # new items appear in the feed.
+  http: []
+
 github:
   # The ID of the gist to be pushed to. This
   # gist must be writtable by the authenticated

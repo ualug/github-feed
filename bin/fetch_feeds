@@ -40,6 +40,15 @@ org_feed.reject! { |a|
 org_feed = (org_feed.sort_by! { |a| a.created_at }).last settings.feed.length
 
 
+# Fetch the previous content of the feed
+# and compare it to this one.
+
+resp = Typhoeus.get "https://raw.github.com/gist/#{settings.github.gist}/feed.json"
+next_feed = JSON.parse org_feed.to_json
+prev_ids  = JSON.parse(resp.body).map { |k| k["id"] }
+diff_feed = next_feed.reject { |k| prev_ids.include? k["id"] }
+
+
 # Push the feed to the gist defined in
 # the config's github.gist property.
 
@@ -50,3 +59,19 @@ github.gists.edit settings.github.gist, {
     }
   }
 }
+
+
+# Fire the pushes at the end, so we're sure
+# a timeout there won't prevent updating
+# the Gist. 
+
+if diff_feed.length > 0
+  hydra = Typhoeus::Hydra.new
+  settings.push.http.each { |url|
+    t = Typhoeus::Request.new url,
+      method: :post,
+      params: {diff: diff_feed.to_json}
+    hydra.queue t
+  }
+  hydra.run
+end
