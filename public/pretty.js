@@ -46,13 +46,10 @@ $(function() {
     return entry;
   };
   entryModel = Handlebars.compile($("#entry-model").html());
-  $.getJSON("https://xml2json.heroku.com/?callback=?", {
-    url: "https://raw.github.com/gist/3081021/feed.json"
-  }, function(feed) {
-    var entry, _i, _len, _ref;
-    _ref = JSON.parse(feed);
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      entry = _ref[_i];
+  $.get("/proxy/feed.json", function(feed) {
+    var entry, _i, _len;
+    for (_i = 0, _len = feed.length; _i < _len; _i++) {
+      entry = feed[_i];
       entry = type2action(entry);
       $("#feed").prepend(entryModel(entry));
     }

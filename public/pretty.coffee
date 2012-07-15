@@ -43,10 +43,8 @@ $ ->
   
   
   entryModel = Handlebars.compile $("#entry-model").html()
-  $.getJSON "https://xml2json.heroku.com/?callback=?", {
-    url: "https://raw.github.com/gist/3081021/feed.json"
-  }, (feed) ->
-    for entry in JSON.parse feed
+  $.get "/proxy/feed.json", (feed) ->
+    for entry in feed
       entry = type2action entry
       $("#feed").prepend entryModel entry
     
