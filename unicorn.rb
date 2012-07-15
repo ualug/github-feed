@@ -1,2 +1,2 @@
-worker_processes 8
+worker_processes 6
 timeout 30
