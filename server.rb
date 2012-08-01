@@ -12,9 +12,14 @@ get "/pretty" do
   erb :pretty
 end
 
-get "/proxy/feed.:format" do
+get "/proxy/:feed.:format" do
   headers "Access-Control-Allow-Origin" => "*"
-  
+
+  unless params[:feed] == "github" or params[:feed] == "feed"
+    status 400
+    return "no feed by that name"
+  end
+
   feed = Typhoeus.get "https://raw.github.com/gist/#{settings.github.gist}/feed.json"
   
   unless feed.code == 200
