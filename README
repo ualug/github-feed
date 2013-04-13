@@ -1,26 +1,16 @@
 This little Ruby app fetches the public timelines
-of all members of an organisation and pushes the
-last N results to a gist.
-
-It is originally designed to run on Heroku, taking
-advantage of Heroku's scheduler to run the fetcher
-every 10 minutes, but it can also be run elsewhere.
-
-The only requirement is to set this environment
-variable:
-
-  GITHUB_AUTH="login:password"
+of all members of an organisation and saves the
+last N results to a file, which is then served in
+different formats for consumption.
 
 Be sure to also read the config.yml file and its
 comments. The app code itself isn't very long nor
 complex, so read up if you wish.
 
-------------------------------------------------------
 
-There's also a CORS-enabled proxy for the data. Just issue
-a GET request to:
+The CORS-enabled server for the data:
 
-    https://ualug-github-feed.herokuapp.com/proxy/feed.<format>
+    GET /github.<format>
 
 where <format> is one of:
 
@@ -30,13 +20,7 @@ where <format> is one of:
           (and you can define that using the ?callback=...
           parameter, otherwise it's set to "callback").
   
-  yaml    Which is the same data, but in YAML format.
-
-
-If GitHub decides there's somthing wrong with our request
-and sends something else than HTTP 200 through, you'll get
-the same status code than what we've received, plus the
-response body, minus the headers — we set those.
+  yml    Which is the same data, but in YAML format.
 
 If you don't specify a format, or specify a bad format,
 you'll get back an HTTP 400, with "bad format" as the body.
