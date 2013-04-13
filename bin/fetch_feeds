@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 require "bundler"
-Bundler.require :default, :fetcher, (ENV["RACK_ENV"] || "development").to_sym
+require "yaml"
+Bundler.require :default, :fetcher
 
 settings = YAML.load_file("config.yml").to_hashugar
-github = Github.new basic_auth: ENV["GITHUB_AUTH"]
-
+github = Github.new
 
 # Fetch all feeds from all members of the
 # organisation, except those in the config's
@@ -21,57 +21,9 @@ members.each do |member|
   end
 end
 
-
-# Remove the updates we generate ourselves.
-# Note: this doesn't recognise whether the
-# updating was done by this script or else.
-
-org_feed.reject! { |a|
-  if a.payload.gist
-    a.payload.gist.id == settings.github.gist.to_s
-  end
-}
-
-
 # Sort the feed by date and pick only
 # the last N items, as defined in the
 # config's feed.length property.
 
 org_feed = (org_feed.sort_by! { |a| a.created_at }).last settings.feed.length
-
-
-# Fetch the previous content of the feed
-# and compare it to this one.
-
-resp = Typhoeus.get "https://raw.github.com/gist/#{settings.github.gist}/feed.json"
-next_feed = JSON.parse org_feed.to_json
-prev_ids  = JSON.parse(resp.body).map { |k| k["id"] }
-diff_feed = next_feed.reject { |k| prev_ids.include? k["id"] }
-
-
-# Push the feed to the gist defined in
-# the config's github.gist property.
-
-github.gists.edit settings.github.gist, {
-  "files" => {
-    "feed.json" => {
-      "content" => org_feed.to_json
-    }
-  }
-}
-
-
-# Fire the pushes at the end, so we're sure
-# a timeout there won't prevent updating
-# the Gist. 
-
-if diff_feed.length > 0
-  hydra = Typhoeus::Hydra.new
-  settings.push.http.each { |url|
-    t = Typhoeus::Request.new url,
-      method: :post,
-      params: {diff: diff_feed.to_json}
-    hydra.queue t
-  }
-  hydra.run
-end
+IO.write "feed.json", org_feed.to_json

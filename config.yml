@@ -10,17 +10,6 @@ feed:
   # listed, add their username to the list.
   ignore: []
 
-push:
-  # A list of URLs that will be POSTed to whenever
-  # new items appear in the feed.
-  http: []
-
 github:
-  # The ID of the gist to be pushed to. This
-  # gist must be writtable by the authenticated
-  # user (as defined by the environment variable
-  # GITHUB_AUTH).
-  gist: 3083036
-  
   # The organisation we're doing all this for :)
   org: ualug

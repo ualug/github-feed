@@ -43,7 +43,7 @@ $ ->
   
   
   entryModel = Handlebars.compile $("#entry-model").html()
-  $.get "/proxy/feed.json", (feed) ->
+  $.get "github.json", (feed) ->
     for entry in feed
       entry = type2action entry
       $("#feed").prepend entryModel entry

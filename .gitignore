@@ -1,2 +1,4 @@
 vendor/cache
 .env
+feed.json
+Gemfile.lock

@@ -1,6 +1,6 @@
 require "bundler"
 require "yaml"
-Bundler.require :default, :server, (ENV["RACK_ENV"] || "development").to_sym
+Bundler.require :default, :server
 settings = YAML.load_file("config.yml").to_hashugar
 
 get "/" do
@@ -12,33 +12,22 @@ get "/pretty" do
   erb :pretty
 end
 
-get "/proxy/:feed.:format" do
+get "github.:format" do
   headers "Access-Control-Allow-Origin" => "*"
+  feed = IO.read "feed.json"
 
-  unless params[:feed] == "github" or params[:feed] == "feed"
-    status 400
-    return "no feed by that name"
-  end
-
-  feed = Typhoeus.get "https://raw.github.com/gist/#{settings.github.gist}/feed.json"
-  
-  unless feed.code == 200
-    status feed.code
-    return feed.body
-  end
-  
   case params[:format]
     when "json"
       headers "Content-type" => "application/json"
-      feed.body
+      feed
     when "jsonp"
       headers "Content-type" => "application/javascript"
       cb = params["callback"] || "callback"
       cb = "callback" if cb == ""
-      "#{cb}(#{feed.body});"
-    when "yaml"
-      headers "Content-type" => "application/x-yaml"
-      YAML.dump JSON.load feed.body
+      "#{cb}(#{feed});"
+    when "yml"
+      headers "Content-type" => "text/x-yaml"
+      YAML.dump JSON.load feed
     else
       status 400
       "bad format"
