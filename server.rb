@@ -12,7 +12,7 @@ get "/pretty" do
   erb :pretty
 end
 
-get "github.:format" do
+get "/github.:format" do
   headers "Access-Control-Allow-Origin" => "*"
   feed = IO.read "feed.json"
 
