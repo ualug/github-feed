@@ -1,26 +1,9 @@
-This little Ruby app fetches the public timelines
+This little Ruby script fetches the public timelines
 of all members of an organisation and saves the
-last N results to a file, which is then served in
-different formats for consumption.
+last N results to a JSON file, which you can then
+serve using your server of choice (e.g. NGINX).
 
 Be sure to also read the config.yml file and its
-comments. The app code itself isn't very long nor
+comments. The code itself isn't very long nor
 complex, so read up if you wish.
 
-
-The CORS-enabled server for the data:
-
-    GET /github.<format>
-
-where <format> is one of:
-
-  json    Which is just what the gist contains.
-  
-  jsonp   Which is the same, but wrapped in a callback
-          (and you can define that using the ?callback=...
-          parameter, otherwise it's set to "callback").
-  
-  yml    Which is the same data, but in YAML format.
-
-If you don't specify a format, or specify a bad format,
-you'll get back an HTTP 400, with "bad format" as the body.

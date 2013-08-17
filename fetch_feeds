@@ -26,4 +26,4 @@ end
 # config's feed.length property.
 
 org_feed = (org_feed.sort_by! { |a| a.created_at }).last settings.feed.length
-IO.write "feed.json", org_feed.to_json
+IO.write "#{settings.github.org}.json", org_feed.to_json
